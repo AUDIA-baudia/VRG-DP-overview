@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Agent Project Plan: Velocity Retail Group + QAIZR | Working Draft</title>
+  <style>
+    /* =========================================================
+       Brand system: Velocity Retail Group identity standards
+       Core: PMS 285 blue + PMS 430 gray
+       Secondary: PMS 2395 magenta, PMS 2765 navy, white
+       Tertiary: PMS 652 yellow, metallic silver
+       Typography: Gotham (sans) with Calibri / Helvetica fallback
+       Body type in dark gray (per VRG standards)
+       Blue used sparingly for headlines and call-outs
+       ========================================================= */
+    :root {
+      --vrg-blue: #2D6FB7;
+      --vrg-blue-deep: #1f5896;
+      --vrg-gray: #7D868C;
+      --vrg-gray-deep: #4a5560;
+      --vrg-navy: #201545;
+      --vrg-magenta: #C62D91;
+      --vrg-yellow: #F6B333;
+      --ink: #1f2937;
+      --muted: #7D868C;
+      --surface: #f7f8fa;
+      --surface-blue: #eff5fc;
+      --border: #e2e5ea;
+      --paper: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Gotham SSm A", "Gotham SSm B", "Gotham", "Helvetica Neue", "Calibri", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      line-height: 1.6;
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ---- HERO ---- */
+    .hero { padding: 3.5rem 0 2.5rem; border-bottom: 1px solid var(--border); }
+    .hero-meta-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .brand-lockup {
+      display: flex; align-items: center; gap: 1.25rem;
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--vrg-gray);
+    }
+    .brand-lockup .vrg-mark {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-weight: 700; color: var(--vrg-gray-deep); letter-spacing: 0.06em;
+    }
+    .brand-lockup .vrg-mark .tile {
+      width: 14px; height: 14px; background: var(--vrg-blue);
+      transform: skewX(-12deg); display: inline-block;
+    }
+    .brand-lockup .vrg-mark .retail { color: var(--vrg-gray-deep); font-weight: 700; }
+    .brand-lockup .vrg-mark .group { color: var(--vrg-gray); font-weight: 400; }
+    .brand-lockup .divider { width: 1px; height: 22px; background: var(--border); }
+    .brand-lockup .qaizr-mark {
+      font-weight: 700; color: var(--vrg-blue); letter-spacing: 0.18em;
+    }
+    .doc-tag {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--vrg-magenta); font-weight: 600;
+    }
+
+    .eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--vrg-blue); font-weight: 600; margin-bottom: 1rem;
+    }
+    h1.hero-title {
+      font-size: 2.4rem; font-weight: 700; letter-spacing: -0.015em;
+      line-height: 1.15; color: var(--ink); max-width: 28ch;
+      margin-bottom: 1rem;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--vrg-gray-deep); max-width: 60ch; line-height: 1.55;
+    }
+
+    .hero-meta {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+      margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    .hero-meta dt {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--vrg-gray); font-weight: 600; margin-bottom: 0.35rem;
+    }
+    .hero-meta dd { font-size: 0.92rem; color: var(--ink); font-weight: 500; line-height: 1.4; }
+
+    .working-draft {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 0.75rem; background: rgba(198,45,145,0.08);
+      color: var(--vrg-magenta); font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 700; border-radius: 2px;
+      border: 1px solid rgba(198,45,145,0.2);
+    }
+    .working-draft .dot {
+      width: 6px; height: 6px; background: var(--vrg-magenta); border-radius: 50%;
+    }
+
+    /* ---- PATTERN BAR ---- */
+    .pattern-bar { height: 56px; background: var(--vrg-gray); position: relative; overflow: hidden; }
+    .pattern-bar svg { position: absolute; right: 0; top: 0; height: 100%; opacity: 0.35; }
+
+    /* ---- SECTIONS ---- */
+    section.block { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+    section.block:last-of-type { border-bottom: none; }
+
+    h2.section-title {
+      font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--vrg-blue); font-weight: 600; margin-bottom: 0.6rem;
+    }
+    h2.section-title + .section-lede {
+      font-size: 1.55rem; font-weight: 700; letter-spacing: -0.012em;
+      line-height: 1.25; color: var(--ink); margin-bottom: 1.25rem; max-width: 40ch;
+    }
+
+    p { margin-bottom: 1rem; color: var(--ink); font-size: 0.98rem; }
+    p.lead { font-size: 1.05rem; color: var(--vrg-gray-deep); }
+    strong { color: var(--ink); font-weight: 600; }
+    em { font-style: italic; color: var(--vrg-gray-deep); }
+
+    /* ---- THREE LAYERS ---- */
+    .layers {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .layer {
+      padding: 1.25rem 1.25rem 1.5rem; border: 1px solid var(--border);
+      background: var(--paper); border-top: 4px solid var(--vrg-blue);
+    }
+    .layer.swarm { border-top-color: var(--vrg-magenta); }
+    .layer.proactive { border-top-color: var(--vrg-yellow); }
+    .layer h4 {
+      font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 0.4rem;
+    }
+    .layer.active h4 { color: var(--vrg-blue); }
+    .layer.swarm h4 { color: var(--vrg-magenta); }
+    .layer.proactive h4 { color: #c89425; }
+    .layer .layer-name {
+      font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.6rem;
+      line-height: 1.25;
+    }
+    .layer p { font-size: 0.88rem; color: var(--vrg-gray-deep); margin: 0; line-height: 1.5; }
+
+    /* ---- CANDIDATE AGENTS ---- */
+    .agent-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.85rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+    .agent-card {
+      padding: 1.1rem 1.25rem; border: 1px solid var(--border); background: var(--paper);
+      position: relative;
+    }
+    .agent-card.sprint-pick {
+      border-left: 4px solid var(--vrg-magenta);
+      background: linear-gradient(to right, rgba(198,45,145,0.04), transparent 60%);
+    }
+    .agent-card .agent-num {
+      position: absolute; top: 0.9rem; right: 1rem;
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--vrg-gray); font-weight: 700;
+    }
+    .agent-card .pick-badge {
+      display: inline-block; padding: 0.2rem 0.6rem; background: var(--vrg-magenta);
+      color: white; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .agent-card h3 {
+      font-size: 1.05rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 0.65rem;
+    }
+    .agent-card .io {
+      display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 0.8rem;
+      font-size: 0.82rem; line-height: 1.45;
+    }
+    .agent-card .io dt {
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--vrg-blue); font-weight: 700; padding-top: 0.1rem;
+    }
+    .agent-card .io dd { color: var(--vrg-gray-deep); }
+    .agent-card .outcome {
+      margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px dashed var(--border);
+      font-size: 0.83rem; font-style: italic; color: var(--ink);
+    }
+
+    /* ---- SPRINT WEEK TIMELINE ---- */
+    .sprint-week {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    .sprint-day {
+      padding: 1rem 0.85rem; background: var(--surface);
+      border-top: 4px solid var(--vrg-blue); position: relative;
+    }
+    .sprint-day .day-label {
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--vrg-blue); font-weight: 700; margin-bottom: 0.4rem;
+    }
+    .sprint-day .day-title {
+      font-size: 0.92rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .sprint-day p { font-size: 0.78rem; color: var(--vrg-gray-deep); margin: 0; line-height: 1.45; }
+
+    /* ---- PHASE PLAN ---- */
+    .phases { margin: 1.5rem 0; }
+    .phase {
+      display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem;
+      padding: 1.25rem 0; border-top: 1px solid var(--border); align-items: baseline;
+    }
+    .phase:last-child { border-bottom: 1px solid var(--border); }
+    .phase .phase-label {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--vrg-blue); font-weight: 700; line-height: 1.4;
+    }
+    .phase .phase-when {
+      display: block; font-size: 0.68rem; color: var(--vrg-gray);
+      letter-spacing: 0.1em; font-weight: 500; margin-top: 0.2rem;
+    }
+    .phase .phase-body { font-size: 0.93rem; color: var(--ink); line-height: 1.55; }
+    .phase .phase-body strong { color: var(--vrg-blue-deep); }
+
+    /* ---- HORIZON ---- */
+    .horizon {
+      margin: 1.5rem 0; padding: 1.5rem; background: var(--surface-blue);
+      border-left: 4px solid var(--vrg-blue);
+    }
+    .horizon h4 {
+      font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--vrg-blue); font-weight: 700; margin-bottom: 0.6rem;
+    }
+    .horizon-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      margin-top: 1rem;
+    }
+    .horizon-checkpoint .when {
+      font-size: 0.78rem; font-weight: 700; color: var(--vrg-blue-deep);
+      letter-spacing: 0.06em; margin-bottom: 0.3rem;
+    }
+    .horizon-checkpoint p { font-size: 0.83rem; margin: 0; color: var(--vrg-gray-deep); line-height: 1.5; }
+
+    /* ---- PULL QUOTE ---- */
+    .pullquote {
+      margin: 2rem 0; padding: 1.5rem 1.75rem 1.25rem;
+      background: var(--surface); border-left: 4px solid var(--vrg-magenta);
+    }
+    .pullquote .q {
+      font-family: "Adobe Caslon Pro", "Times New Roman", Georgia, serif;
+      font-style: italic; font-size: 1.15rem; line-height: 1.55;
+      color: var(--ink); margin-bottom: 0.6rem;
+    }
+    .pullquote .attr {
+      font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--vrg-magenta); font-weight: 600;
+    }
+
+    /* ---- ASKS GRID ---- */
+    .asks { margin: 1.5rem 0; }
+    .ask {
+      display: grid; grid-template-columns: auto 1fr; gap: 1.25rem;
+      padding: 1rem 0; border-top: 1px solid var(--border); align-items: baseline;
+    }
+    .ask:last-child { border-bottom: 1px solid var(--border); }
+    .ask .ask-tag {
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--vrg-magenta); font-weight: 700; min-width: 9ch;
+    }
+    .ask .ask-body { font-size: 0.93rem; color: var(--ink); line-height: 1.55; }
+
+    /* ---- REACTION POINTS ---- */
+    .reactions {
+      margin: 1.25rem 0; padding: 1.5rem 1.75rem;
+      background: linear-gradient(135deg, rgba(45,111,183,0.05), rgba(198,45,145,0.05));
+      border: 1px solid var(--border);
+    }
+    .reactions h4 {
+      font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--vrg-blue); font-weight: 700; margin-bottom: 0.6rem;
+    }
+    .reactions ul {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .reactions li {
+      padding: 0.6rem 0; border-bottom: 1px dashed rgba(125,134,140,0.3);
+      font-size: 0.93rem; line-height: 1.5; display: flex; gap: 0.75rem;
+      align-items: baseline;
+    }
+    .reactions li:last-child { border-bottom: none; }
+    .reactions li::before {
+      content: "›"; color: var(--vrg-magenta); font-weight: 700;
+      font-size: 1.1rem; line-height: 1;
+    }
+    .reactions li strong { color: var(--vrg-blue-deep); }
+
+    /* ---- FAILURE / SUCCESS pivot ---- */
+    .stakes {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.25rem;
+      align-items: stretch; margin: 1.5rem 0;
+    }
+    .stake {
+      padding: 1.25rem 1.5rem; border: 1px solid var(--border); background: var(--paper);
+    }
+    .stake.fail { border-top: 4px solid var(--vrg-gray); opacity: 0.92; }
+    .stake.win { border-top: 4px solid var(--vrg-blue); background: linear-gradient(to bottom, rgba(45,111,183,0.04), transparent); }
+    .stake h5 {
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 0.6rem;
+    }
+    .stake.fail h5 { color: var(--vrg-gray); }
+    .stake.win h5 { color: var(--vrg-blue); }
+    .stake p { font-size: 0.92rem; margin: 0; color: var(--vrg-gray-deep); line-height: 1.5; }
+    .stakes-arrow { color: var(--vrg-magenta); font-size: 1.5rem; font-weight: 700; align-self: center; }
+
+    /* ---- FOOTER ---- */
+    footer.doc-foot {
+      padding: 2.5rem 0; background: var(--surface);
+      border-top: 4px solid var(--vrg-blue); margin-top: 2rem;
+    }
+    .foot-grid {
+      display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end;
+    }
+    .foot-grid .from {
+      font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--vrg-gray); font-weight: 600;
+    }
+    .foot-grid .signoff {
+      font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 0.4rem 0 0.2rem;
+    }
+    .foot-grid .signoff .qaizr { color: var(--vrg-blue); letter-spacing: 0.06em; }
+    .foot-grid .url { font-size: 0.88rem; color: var(--vrg-gray-deep); letter-spacing: 0.04em; }
+    .foot-grid .doc-id {
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--vrg-gray); text-align: right;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 820px) {
+      h1.hero-title { font-size: 1.85rem; }
+      .hero-meta { grid-template-columns: repeat(2, 1fr); }
+      .layers { grid-template-columns: 1fr; }
+      .agent-grid { grid-template-columns: 1fr; }
+      .sprint-week { grid-template-columns: repeat(2, 1fr); }
+      .horizon-grid { grid-template-columns: repeat(2, 1fr); }
+      .stakes { grid-template-columns: 1fr; }
+      .stakes-arrow { transform: rotate(90deg); text-align: center; }
+      .phase { grid-template-columns: 1fr; gap: 0.4rem; }
+      .foot-grid { grid-template-columns: 1fr; }
+      .foot-grid .doc-id { text-align: left; }
+    }
+
+    @media print {
+      body { font-size: 11pt; }
+      section.block, .hero { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============== HERO ============== -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-meta-row">
+        <div class="brand-lockup">
+          <span class="vrg-mark">
+            <span class="tile" aria-hidden="true"></span>
+            <span>VELOCITY <span class="retail">RETAIL</span><span class="group">GROUP</span></span>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <span class="qaizr-mark">QAIZR</span>
+        </div>
+        <span class="doc-tag">Multi-Agent Project Plan</span>
+      </div>
+
+      <p class="eyebrow">From Site-Selection Ladder to Live Multi-Agent Engine</p>
+      <h1 class="hero-title">A working project plan for the Humans+Agents engagement.</h1>
+      <p class="hero-sub">Built on what you walked me through April 14 and refined April 23. Organized around the Sprint Week kickoff that opens the boot camp, and the agents that follow on the platform. Your reaction is the point of this draft. Push back where it does not match what you are looking for.</p>
+
+      <dl class="hero-meta">
+        <div>
+          <dt>Date</dt>
+          <dd>April 30, 2026<br><span style="color:var(--vrg-gray); font-size:0.82rem;">Pre-meeting working draft</span></dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd><span class="working-draft"><span class="dot"></span>v1.0 Working Draft</span></dd>
+        </div>
+        <div>
+          <dt>Prepared by</dt>
+          <dd>Brian Audia, CEO<br><span style="color:var(--vrg-gray); font-size:0.82rem;">QAIZR</span></dd>
+        </div>
+        <div>
+          <dt>For</dt>
+          <dd>Darren Pitts, EVP<br><span style="color:var(--vrg-gray); font-size:0.82rem;">Velocity Retail Group</span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============== PATTERN BAR ============== -->
+  <div class="pattern-bar" aria-hidden="true">
+    <svg viewBox="0 0 240 56" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="vrgPattern" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(20)">
+          <rect x="2" y="2" width="8" height="8" fill="#ffffff" opacity="0.6"/>
+          <rect x="12" y="12" width="8" height="8" fill="#ffffff" opacity="0.4"/>
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="240" height="56" fill="url(#vrgPattern)"/>
+      <rect x="210" y="34" width="6" height="6" fill="#C62D91"/>
+    </svg>
+  </div>
+
+  <!-- ============== 01 / WHAT WE ARE SOLVING ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">01 / What We Are Solving</h2>
+      <p class="section-lede">The system you have built works. It just does not scale by hand.</p>
+
+      <p class="lead">You walk markets, identify the right five buildings on every drive, write 40 to 50 offers a year personally, run 80 across the team, and you watch most of those buildings sit because there is no system that keeps working on them while you go to the next market.</p>
+
+      <p>You also walk into ICSC waiting for retailers to hand you void maps. By then the corridors you would have proactively pitched are already on someone else's list. The instincts are already correct. The question is what carries them across three hundred zones, ten states, and the years it takes for a Pizza Hut to become a Chipotle.</p>
+
+      <div class="pullquote">
+        <p class="q">"What I have learned from doing this two hundred times is when I drive a market, my favorite five sites are the ones I want to go buy. I come back in three or four years and probably all five have turned into Chipotle, Panera, Whataburger, Chick-fil-A, Valvoline. My instincts of what five sites to chase were correct. The problem is we get busy and go on to the next market, and there is not a system to keep working on those five buildings."</p>
+        <p class="attr">Darren Pitts, April 14</p>
+      </div>
+
+      <p>That is the gap. The plan below is how we close it: not one agent, but a chain of agents organized into a small number of architectural layers, built one at a time inside the boot camp, paid for by the Humans+Agents platform engagement, and run by your team on tools you already know.</p>
+    </div>
+  </section>
+
+  <!-- ============== 02 / THE GUIDE AND THE PLAN ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">02 / How We Build It Together</h2>
+      <p class="section-lede">QAIZR coaches. The Humans+Agents platform hosts. Your team runs it.</p>
+
+      <p>Velocity Retail Group goes onto the Humans+Agents platform alongside QAIZR coaching. The boot camp is a month long. The first five days are the Sprint Week, where we build Agent Number One together end to end, against a real example you provide. Days Six through Thirty extend the chain, integrate the agent into your daily workflow, and train at least one teammate to operate it independently.</p>
+
+      <p>The work is people-powered and AI-accelerated. The agents take the toil. Your judgment, your instincts, and your relationships still drive every deal. The system simply lets you do across three hundred zones what today you can only do one market at a time.</p>
+    </div>
+  </section>
+
+  <!-- ============== 03 / THE THREE LAYERS ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">03 / The Architectural Shape</h2>
+      <p class="section-lede">Three layers. Six agents. Stacked so each one unlocks the next.</p>
+
+      <p>The system you described is not a single workflow. It is three workflows running on different clocks, and each wants a different shape.</p>
+
+      <div class="layers">
+        <div class="layer active">
+          <h4>Layer One</h4>
+          <div class="layer-name">Active-Deal Engine</div>
+          <p>Hub-and-spoke. When a retailer hires you, an orchestrator dispatches specialists down the ladder: market plan, prospect list, owner research, offers. Runs per assignment.</p>
+        </div>
+        <div class="layer swarm">
+          <h4>Layer Two</h4>
+          <div class="layer-name">Persistent-Monitoring Swarm</div>
+          <p>Always-on. Watches three hundred zones across ten sun-belt states for property-listed events and follow-up windows. Feeds new prospects into the deal engine. Never sleeps.</p>
+        </div>
+        <div class="layer proactive">
+          <h4>Layer Three</h4>
+          <div class="layer-name">Proactive-Pitch Engine</div>
+          <p>On-demand void analysis. Given a market, identifies the retailers who should be there but are not. The mechanism behind your secret advantage at ICSC.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 04 / SIX AGENTS ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">04 / The Six Candidate Agents</h2>
+      <p class="section-lede">Each one is bounded, testable, and earns its place in the chain.</p>
+
+      <p>Six agents cover the workflow you described, with the Sprint pick called out first. Each card lists what the agent eats, what it produces, and the outcome you feel.</p>
+
+      <div class="agent-grid">
+        <div class="agent-card sprint-pick">
+          <span class="agent-num">Agent 01</span>
+          <span class="pick-badge">Sprint Pick</span>
+          <h3>Owner Research Agent</h3>
+          <dl class="io">
+            <dt>Eats</dt><dd>A list of property addresses inside a defined zone (the fourteen prospects, listed plus off-market).</dd>
+            <dt>Produces</dt><dd>A clean record per address: entity name, owner name, current email, current phone, source confidence.</dd>
+          </dl>
+          <p class="outcome">Replaces the source in India. Day Six, you wake up to fourteen verified contact records ready for outreach.</p>
+        </div>
+
+        <div class="agent-card">
+          <span class="agent-num">Agent 02</span>
+          <h3>Offer-Writing Agent</h3>
+          <dl class="io">
+            <dt>Eats</dt><dd>Approved deal terms, pricing parameters, the property owner record, the buy criteria for the client.</dd>
+            <dt>Produces</dt><dd>A three-page non-binding letter of intent on your pre-approved form, ready for review.</dd>
+          </dl>
+          <p class="outcome">Compresses the 80 offers a year. Brent and Victor stop typing. You review, sign, send.</p>
+        </div>
+
+        <div class="agent-card">
+          <span class="agent-num">Agent 03</span>
+          <h3>Market Plan Generator</h3>
+          <dl class="io">
+            <dt>Eats</dt><dd>The retailer's void map, the market boundaries, the corridor data, the buy criteria.</dd>
+            <dt>Produces</dt><dd>A tiered market plan (tier one, tier two, tier three) with retail-gravity scoring and corridor recommendations.</dd>
+          </dl>
+          <p class="outcome">Turns a vague client void map into a market plan in hours instead of weeks.</p>
+        </div>
+
+        <div class="agent-card">
+          <span class="agent-num">Agent 04</span>
+          <h3>Corridor Monitor (Swarm)</h3>
+          <dl class="io">
+            <dt>Eats</dt><dd>Your three hundred defined zones, plus listings feeds (CoStar, Crexi, LoopNet).</dd>
+            <dt>Produces</dt><dd>Real-time alerts when a property hits the market in any zone you care about, ranked by fit.</dd>
+          </dl>
+          <p class="outcome">Turns Layer Two on. You stop driving randomly. The system tells you where to look.</p>
+        </div>
+
+        <div class="agent-card">
+          <span class="agent-num">Agent 05</span>
+          <h3>Long-Cadence Outreach</h3>
+          <dl class="io">
+            <dt>Eats</dt><dd>The off-market owner records, your preferred touch cadence, your voice and tone.</dd>
+            <dt>Produces</dt><dd>Personalized seller touches every quarter or six months, plus the responses surfaced for your judgment.</dd>
+          </dl>
+          <p class="outcome">Ends the one-night-stand pattern. The robot sits on those five buildings for years so you don't have to.</p>
+        </div>
+
+        <div class="agent-card">
+          <span class="agent-num">Agent 06</span>
+          <h3>Void Analysis (Proactive)</h3>
+          <dl class="io">
+            <dt>Eats</dt><dd>A market, demographics, retailer presence, peer-market patterns, retailer site criteria.</dd>
+            <dt>Produces</dt><dd>A pitch-ready packet: which retailers should be in this market, why, plus the sites you have in hand.</dd>
+          </dl>
+          <p class="outcome">The secret advantage. You walk into ICSC armed instead of waiting on someone else's void map.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 05 / SPRINT WEEK ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">05 / The Sprint Week (Days One through Five)</h2>
+      <p class="section-lede">We build Owner Research together, end to end, against a real zone.</p>
+
+      <p>Owner Research is the right Sprint pick for four reasons. It has the cleanest five-day input and output contract. It replaces a real cost line you are already paying. You named it as the lowest hanging fruit on April 14. And it teaches the reusable agent-building primitives (structured input, web lookup, validation, structured output) that every later agent in the chain inherits.</p>
+
+      <p>Each day ends with something that runs.</p>
+
+      <div class="sprint-week">
+        <div class="sprint-day">
+          <div class="day-label">Day 01</div>
+          <div class="day-title">Frame &amp; Golden Example</div>
+          <p>You hand me one real zone with its fourteen properties. We define the input schema and what a "good" output record looks like. Quality target locked.</p>
+        </div>
+        <div class="sprint-day">
+          <div class="day-label">Day 02</div>
+          <div class="day-title">Build the Lookup</div>
+          <p>Wire the agent: take an address, search, extract entity, owner, contact channels. First end-to-end run on three properties.</p>
+        </div>
+        <div class="sprint-day">
+          <div class="day-label">Day 03</div>
+          <div class="day-title">Validation &amp; Accuracy</div>
+          <p>Add the second pass: cross-check email validity, normalize phone, flag stale data. Run on the full fourteen, score against your existing records.</p>
+        </div>
+        <div class="sprint-day">
+          <div class="day-label">Day 04</div>
+          <div class="day-title">Hand-off Pattern</div>
+          <p>Wire the trigger: target locked → fourteen records dropped into your CRM or sheet of choice in outreach-ready format. Brent walks the loop.</p>
+        </div>
+        <div class="sprint-day">
+          <div class="day-label">Day 05</div>
+          <div class="day-title">You Operate It Live</div>
+          <p>You run the agent in front of me on a zone you have not seen. I watch. We tighten anything that surprises you. The agent goes into daily use Monday.</p>
+        </div>
+      </div>
+
+      <p>Day Six, you wake up, drop a target into the system, and walk to your morning coffee while it produces fourteen verified contact records. That moment is what makes the rest of the chain real.</p>
+    </div>
+  </section>
+
+  <!-- ============== 06 / BOOT CAMP MONTH ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">06 / The Rest of the Boot Camp Month</h2>
+      <p class="section-lede">Weeks Two through Four extend the agent into daily use and ship the second build.</p>
+
+      <p>Sprint Week proves Agent Number One. The remaining three weeks of the boot camp do two things in parallel: harden the first agent into a daily habit on your team, and build Agent Number Two against the highest-volume manual workflow you have already named.</p>
+
+      <div class="phases">
+        <div class="phase">
+          <div>
+            <div class="phase-label">Week Two</div>
+            <span class="phase-when">Days 6 to 12</span>
+          </div>
+          <div class="phase-body">
+            <strong>Operate &amp; Train.</strong> Owner Research goes into daily use across active zones. We pick one teammate (Brent or Victor are the obvious candidates) and train them to drive the agent without you in the room. Edge cases get logged and fed back into the agent's prompt and validation.
+          </div>
+        </div>
+        <div class="phase">
+          <div>
+            <div class="phase-label">Weeks Three &amp; Four</div>
+            <span class="phase-when">Days 13 to 30</span>
+          </div>
+          <div class="phase-body">
+            <strong>Build Agent Two: Offer-Writing.</strong> The 80-offers-a-year pain you quantified on April 23 becomes the second build. You hand me a real signed letter of intent as the Golden Example, plus your current pricing-parameter logic per client. Output is a three-page non-binding LOI on your existing form, ready for your review and signature. By Day Thirty, both agents are running side by side.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 07 / PHASE TWO + PHASE THREE ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">07 / Phase Two and Phase Three</h2>
+      <p class="section-lede">Months Two through Six. The chain extends, then the swarm goes live.</p>
+
+      <p>After the boot camp, the build cadence relaxes from a daily sprint to a more sustainable pace. The order respects technical dependency: each agent gets built when its inputs are reliable.</p>
+
+      <div class="phases">
+        <div class="phase">
+          <div>
+            <div class="phase-label">Phase Two</div>
+            <span class="phase-when">Months 2 &amp; 3</span>
+          </div>
+          <div class="phase-body">
+            <strong>Market Plan Generator (Agent 03), then Corridor Monitor (Agent 04).</strong> Market Plan Generator turns the vague client void map into the tiered plan your team produces today by hand. Once it is reliable, we light up Corridor Monitor: the always-on swarm starts watching every zone you have defined and feeding fresh prospects into the active-deal engine. This is the moment Layer Two goes live.
+          </div>
+        </div>
+        <div class="phase">
+          <div>
+            <div class="phase-label">Phase Three</div>
+            <span class="phase-when">Months 4 to 6</span>
+          </div>
+          <div class="phase-body">
+            <strong>Long-Cadence Outreach (Agent 05), then Void Analysis (Agent 06).</strong> Long-Cadence Outreach ends the one-night-stand pattern. Void Analysis turns on the proactive-pitch engine: your team walks into a retailer meeting with a packet that says "this is what you should do, here is why, and here are the sites we already have." This is the secret advantage realized.
+          </div>
+        </div>
+        <div class="phase">
+          <div>
+            <div class="phase-label">Parallel Track</div>
+            <span class="phase-when">Phase 3 onward</span>
+          </div>
+          <div class="phase-body">
+            <strong>Accelerated Development Services.</strong> The April 23 conversation flagged ADS as a second-entity opportunity. Once the VRG agents are stable in Phase Two, ADS opens as a parallel track on the same platform, reusing as much of the chain as fits.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 08 / THE SIX-MONTH PICTURE ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">08 / The Six-Month Picture</h2>
+      <p class="section-lede">What it looks like the day the chain is fully wired.</p>
+
+      <div class="horizon">
+        <h4>Month Six Snapshot</h4>
+        <div class="horizon-grid">
+          <div class="horizon-checkpoint">
+            <div class="when">Active-Deal Engine</div>
+            <p>Every assignment runs through the orchestrator. Owner research, offer drafting, and market plans happen in hours, not weeks.</p>
+          </div>
+          <div class="horizon-checkpoint">
+            <div class="when">Persistent Swarm</div>
+            <p>Three hundred zones across ten states monitored continuously. Properties hitting the market hit your inbox the same morning.</p>
+          </div>
+          <div class="horizon-checkpoint">
+            <div class="when">Proactive Pitch</div>
+            <p>You walk into ICSC and retailer meetings with custom void analyses in hand. The conversation flips.</p>
+          </div>
+          <div class="horizon-checkpoint">
+            <div class="when">Team Capability</div>
+            <p>At least two teammates running the chain without you. The boot-camp pattern repeats for new hires.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stakes">
+        <div class="stake fail">
+          <h5>If We Wait Six Months</h5>
+          <p>Another ICSC walks past where you react to whatever void maps the retailers hand you. Another year of off-market sites going to the next broker who knocks. The instincts stay correct. The system that carries them does not exist.</p>
+        </div>
+        <div class="stakes-arrow">›</div>
+        <div class="stake win">
+          <h5>If We Start Now</h5>
+          <p>Agent One is in your hands by Day Six. Both first-line agents running by Day Thirty. The swarm watching every zone by Month Three. The proactive pitch in your hand by Month Six. Velocity Retail Group is the firm that walked in already knowing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 09 / WHAT I NEED FROM YOU ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">09 / What I Need From You</h2>
+      <p class="section-lede">A small set of inputs unlocks the whole month.</p>
+
+      <p>None of this is heavy. Most of it is things you already have. The point is to surface what we need so nothing gets blocked on Day Two.</p>
+
+      <div class="asks">
+        <div class="ask">
+          <span class="ask-tag">Golden Example</span>
+          <span class="ask-body">One real zone with its fourteen properties (listed plus off-market) and the owner records you have today. This is the Day-One input for the Owner Research Agent and the quality target the agent has to beat.</span>
+        </div>
+        <div class="ask">
+          <span class="ask-tag">Boot Camp Partner</span>
+          <span class="ask-body">One teammate who learns the agent alongside you and can drive it solo by end of Week Two. Brent and Victor are the natural candidates given their role in the offer-writing and entity-creation workflows. Your call.</span>
+        </div>
+        <div class="ask">
+          <span class="ask-tag">Access</span>
+          <span class="ask-body">Read access to the Smart Sheets workbook for the chosen zone, a sample retailer void map, and your pre-approved letter of intent template. Heavier integrations (CoStar, Crexi, LoopNet) come later, in Phase Two when Corridor Monitor needs them.</span>
+        </div>
+        <div class="ask">
+          <span class="ask-tag">Buy Criteria</span>
+          <span class="ask-body">A short reference of your current per-client buy criteria (acreage, frontage, depth, pricing parameters) for the three or four clients you want covered first. We start with what you already use; the agent does not invent anything.</span>
+        </div>
+        <div class="ask">
+          <span class="ask-tag">Greenlight or Pushback</span>
+          <span class="ask-body">Agreement on the order in this document, or a direct call on what you would change. The whole point of this draft is that it is yours to edit before we start.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== 10 / WHERE I WANT YOUR REACTION ============== -->
+  <section class="block">
+    <div class="wrap">
+      <h2 class="section-title">10 / Where I Want Your Reaction</h2>
+      <p class="section-lede">The five places your pushback matters most.</p>
+
+      <p>Read this draft like an editor, not a reviewer. The structure is settled. The contents below are the spots where I want you to override me if my read of the April 14 and April 23 conversations missed something.</p>
+
+      <div class="reactions">
+        <h4>Push Back Here</h4>
+        <ul>
+          <li><span><strong>The Sprint pick.</strong> I picked Owner Research because you named it the lowest hanging fruit. If a different agent would land harder for you and your team, swap it. Owner Research can move to Week Two without disturbing anything else.</span></li>
+          <li><span><strong>The boot camp partner.</strong> I assumed Brent or Victor. If the right partner is actually Brian Gast or someone else, name them and we redesign the training pattern around their workflow.</span></li>
+          <li><span><strong>Phase Two ordering.</strong> I sequenced Market Plan Generator before Corridor Monitor on the logic that the market plan defines what zones the monitor watches. If you want the monitor first, we can flip it and use the existing zone definitions in your Smart Sheets as the seed.</span></li>
+          <li><span><strong>ADS parallelism.</strong> I parked ADS in Phase Three. If ADS is more urgent than the VRG Phase Two work, tell me and we re-sequence around it.</span></li>
+          <li><span><strong>Anything missing.</strong> The April 14 transcript was rich but not exhaustive. If a workflow you run today is not represented in the six candidate agents, name it. There is room for a seventh and an eighth.</span></li>
+        </ul>
+      </div>
+
+      <p style="margin-top: 1.5rem;">When you have read this, tell me which of the five points above is wrong, what I missed, and which Sprint Day-One Golden Example you want to hand me. From there we lock the plan and start counting down to Day Six.</p>
+    </div>
+  </section>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="doc-foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <p class="from">Prepared by</p>
+          <p class="signoff">Brian Audia, CEO <span class="qaizr">QAIZR</span></p>
+          <p class="url">qzr.ai &nbsp;·&nbsp; baudia@qzr.ai</p>
+        </div>
+        <div class="doc-id">
+          Project Plan v1.0<br>
+          April 30, 2026<br>
+          Working Draft<br>
+          Velocity Retail Group
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
